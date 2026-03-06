@@ -1,0 +1,2526 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mohammed Sami — Founder, OffWare Research Lab · thetechceo</title>
+  <meta name="description"
+    content="Mohammed Sami — 19-year-old founder of OffWare Research Lab, building MYLO and DesignOS from Kerala, India. Independent AI research. No institutional backing.">
+  <meta property="og:title" content="Mohammed Sami — thetechceo">
+  <meta property="og:description"
+    content="Building general intelligence from Kerala. Founder of OffWare Research Lab. Creator of MYLO and DesignOS.">
+  <meta property="og:image" content="thetechceo.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Mohammed Sami — thetechceo">
+  <meta name="twitter:description"
+    content="Building general intelligence from Kerala. Founder of OffWare Research Lab.">
+  <meta name="twitter:image" content="thetechceo.png">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;1,9..40,300&family=Martian+Mono:wght@300;400&display=swap"
+    rel="stylesheet">
+  <style>
+    /* ─── FOUNDATION ─── */
+    :root {
+      --cream: #f1ede5;
+      --c2: #e9e4da;
+      --c3: #dedad0;
+      --ink: #141210;
+      --ink-m: #3a3733;
+      --ink-s: #78746e;
+      --ink-d: #aeaaa2;
+      --ink-g: #cec9be;
+      --gold: #967a3e;
+      --e: cubic-bezier(0.16, 1, 0.3, 1);
+      --e2: cubic-bezier(0.7, 0, 0.84, 0);
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    html {
+      scrollbar-width: none;
+      font-size: 16px
+    }
+
+    html::-webkit-scrollbar {
+      display: none
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ─── CURSOR: morphing blob ─── */
+    #c-blob {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 40px;
+      height: 40px;
+      pointer-events: none;
+      z-index: 9999;
+      will-change: transform;
+      opacity: 1;
+    }
+
+    #c-blob path {
+      transition: opacity 0.4s;
+    }
+
+    @keyframes gradientSpin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ─── PROGRESS ─── */
+    #pg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #7B2FF7, #D946A8, #FF6B9D, #F77737, #FCAF45);
+      opacity: .85;
+      z-index: 8000;
+      width: 0%;
+      box-shadow: 0 0 10px rgba(217, 70, 168, 0.4);
+    }
+
+    /* ─── LOADER ─── */
+    #ld {
+      position: fixed;
+      inset: 0;
+      background: var(--cream);
+      z-index: 9990;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 14px;
+      transition: opacity 1s var(--e), visibility 1s;
+    }
+
+    #ld.out {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none
+    }
+
+    .ld-n {
+      font-family: 'Cormorant', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 22px;
+      color: var(--ink-m);
+      letter-spacing: .06em;
+      opacity: 0;
+      animation: fadeIn .8s var(--e) .5s forwards
+    }
+
+    .ld-b {
+      width: 0;
+      height: 1px;
+      background: var(--ink-g);
+      animation: barG 1.1s var(--e) .8s forwards
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1
+      }
+    }
+
+    @keyframes barG {
+      to {
+        width: 72px
+      }
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 600;
+      padding: 24px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      opacity: 0;
+      animation: fadeIn .8s var(--e) 2.4s forwards;
+      mix-blend-mode: multiply;
+    }
+
+    .n-l {
+      font-family: 'Martian Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--ink-s)
+    }
+
+    .n-r {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .n-r a {
+      position: relative;
+    }
+
+    .n-dot {
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%) scale(0);
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gold);
+      transition: transform .4s var(--e), opacity .4s;
+      opacity: 0;
+    }
+
+    .n-r a.active .n-dot {
+      transform: translateX(-50%) scale(1);
+      opacity: 1;
+    }
+
+    .n-r a {
+      font-family: 'Martian Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--ink-d);
+      text-decoration: none;
+      cursor: none;
+      transition: color .3s
+    }
+
+    .n-r a:hover {
+      color: var(--ink)
+    }
+
+    /* ══════════════════════════════════════════
+   HERO — PERSON IN THE ROOM
+
+   Full cream. No panels. No boxes.
+   Name fills upper-left, large.
+   Info sits bottom-left.
+   Photo (transparent PNG) anchored to bottom edge,
+   right side — feet at the floor, presence in the space.
+
+   The photo is not decorative. It's structural.
+   You're not on the page. You're in it.
+══════════════════════════════════════════ */
+    .s-hero {
+      height: 100svh;
+      position: relative;
+      overflow: hidden;
+      background: var(--cream);
+      padding: 0 52px 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    /* ── NAME: upper-left, clips from below ── */
+    .h-name {
+      position: absolute;
+      top: 50%;
+      left: 52px;
+      transform: translateY(-64%);
+      z-index: 3;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .h-nl {
+      overflow: hidden;
+      line-height: .86;
+      display: block;
+    }
+
+    .h-nt {
+      font-family: 'Cormorant', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(72px, 12vw, 170px);
+      letter-spacing: -.03em;
+      line-height: .86;
+      color: var(--ink);
+      display: block;
+      transform: translateY(115%);
+      animation: ntUp 1.6s var(--e) 0.3s forwards;
+    }
+
+    .h-nt.d2 {
+      animation-delay: .52s
+    }
+
+    @keyframes ntUp {
+      to {
+        transform: translateY(0)
+      }
+    }
+
+    /* ── PHOTO: transparent PNG, right side, bottom-anchored ──
+   Bottom of the photo = bottom of the section.
+   Person stands on the same floor as the text.
+   Width is auto so portrait proportions hold.
+   z-index 2 so it layers over the bg but under nav.
+   
+   TO SWAP IN YOUR PHOTO:
+   Replace .h-ph-placeholder with:
+   <img class="h-photo" src="yourphoto.png" alt="">
+── */
+    .h-pw {
+      position: absolute;
+      right: 3vw;
+      bottom: 0;
+      /* flush with section bottom — feet on the floor */
+      height: 92svh;
+      /* almost full height — head near top of frame */
+      width: auto;
+      z-index: 2;
+      pointer-events: none;
+      display: flex;
+      align-items: flex-end;
+      /* child aligns to bottom */
+      opacity: 0;
+      animation: photoIn 1.2s var(--e) 0.6s forwards;
+      will-change: transform;
+    }
+
+    @keyframes photoIn {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Real photo img — paste inside .h-pw */
+    .h-photo {
+      height: 100%;
+      width: auto;
+      display: block;
+      object-fit: contain;
+      object-position: bottom center;
+    }
+
+    /* Placeholder silhouette — remove once you have your PNG */
+    .h-ph-placeholder {
+      height: 100%;
+      aspect-ratio: .55/1;
+      position: relative;
+      /* very subtle human-shape gradient just so the layout is legible */
+      background:
+        radial-gradient(ellipse 42% 18% at 50% 8%, #c8ae82 0%, transparent 100%),
+        radial-gradient(ellipse 28% 52% at 50% 45%, #bfa070 0%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #bfa06040 30%, #a0804840 100%);
+      -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+      mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+      opacity: .35;
+    }
+
+    /* Soft ellipse shadow — anchors person to the floor */
+    .h-shadow {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 42%;
+      height: 32px;
+      background: radial-gradient(ellipse 70% 100% at 50% 100%,
+          rgba(20, 18, 16, .065) 0%, transparent 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* ── BOTTOM INFO: left ── */
+    .h-info {
+      position: relative;
+      z-index: 4;
+      max-width: 420px;
+    }
+
+    .h-ey {
+      font-family: 'Martian Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+      color: var(--ink-d);
+      margin-bottom: 14px;
+      opacity: 0;
+      animation: fadeUp .8s var(--e) 1.1s forwards;
+    }
+
+    .h-hr {
+      width: 0;
+      height: 1px;
+      background: var(--ink-g);
+      margin-bottom: 16px;
+      animation: ruleW .9s var(--e) 1.1s forwards;
+    }
+
+    @keyframes ruleW {
+      to {
+        width: 100%
+      }
+    }
+
+    .h-desc {
+      font-family: 'Cormorant', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(14px, 1.55vw, 18px);
+      color: var(--ink-s);
+      line-height: 1.58;
+      margin-bottom: 16px;
+      opacity: 0;
+      animation: fadeUp .9s var(--e) 1.3s forwards;
+    }
+
+    .h-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      opacity: 0;
+      animation: fadeUp .8s var(--e) 1.5s forwards;
+    }
+
+    .h-meta span {
+      font-family: 'Martian Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--ink-d);
+      line-height: 1.9;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(8px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    /* Scroll cue */
+    .h-sc {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      opacity: 0;
+      animation: fadeIn .8s var(--e) 2.2s forwards;
+    }
+
+    .h-scl {
+      width: 1px;
+      height: 38px;
+      background: linear-gradient(to bottom, var(--ink-d), transparent);
+      animation: scPl 2.5s ease infinite;
+    }
+
+    .h-sc span {
+      font-family: 'Martian Mono', monospace;
+      font-size: 7.5px;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--ink-g);
+    }
+
+    @keyframes scPl {
+
+      0%,
+      100% {
+        opacity: .2;
+        transform: scaleY(.75)
+      }
+
+      50% {
+        opacity: .7;
+        transform: scaleY(1.1)
+      }
+    }
+
+    /* ── MARQUEE ── */
+    .s-mq {
+      height: 64px;
+      overflow: hidden;
+      border-top: 1px solid var(--ink-g);
+      border-bottom: 1px solid var(--ink-g);
+      display: flex;
+      align-items: center;
+      background: var(--c2);
+      position: relative;
+      z-index: 2;
+    }
+
+    .mq-t {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      will-change: transform
+    }
+
+    .mw {
+      font-family: 'Cormorant', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(19px, 2.8vw, 30px);
+      color: var(--ink-g);
+      padding: 0 24px
+    }
+
+    .mw.on {
+      color: var(--ink-d)
+    }
+
+    .ms {
+      font-size: 7px;
+      color: var(--ink-g);
+      padding: 0 4px
+    }
+
+    /* ══════════════════════════════════════════
+   WORK — FULL-VIEWPORT STICKY SLIDES
+   
+   Each project is a full-screen slide.
+   The name fills 70% of viewport height.
+   Scroll to change. Not a list — a reveal.
+══════════════════════════════════════════ */
+    .s-wk-o {
+      height: 420vh;
+      position: relative
+    }
+
+    .s-wk {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      overflow: hidden;
+      border-top: 1px solid var(--ink-g);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* Left: text */
+    .wk-l {
+      padding: 0 52px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .wk-ch {
+      font-family: 'Martian Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      color: var(--ink-d);
+      margin-bottom: 48px;
+      transition: opacity .4s;
+    }
+
+    .wk-stage {
+      position: relative;
+      min-height: 260px
+    }
+
+    .wp {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      transition: opacity .75s var(--e), transform .75s var(--e), filter .75s var(--e);
+      pointer-events: none;
+    }
+
+    /* Entry directions */
+    .wp.xl {
+      opacity: 0;
+      transform: translateX(-44px)
+    }
+
+    .wp.xr {
+      opacity: 0;
+      transform: translateX(44px)
+    }
+
+    .wp.yb {
+      opacity: 0;
+      transform: translateY(36px);
+      filter: blur(5px)
+    }
+
+    .wp.show {
+      opacity: 1;
+      transform: none;
+      filter: none;
+      pointer-events: auto
+    }
+
+    .wp.mylo.show {
+      filter: blur(1.5px)
+    }
+
+    /* MYLO never fully sharp */
+
+    .wpn {
+      font-family: 'Cormorant', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(52px, 8.5vw, 112px);
+      letter-spacing: -.03em;
+      line-height: .86;
+      color: var(--ink);
+      margin-bottom: 22px;
+    }
+
+    .wp.mylo .wpn {
+      color: var(--ink-m)
+    }
+
+    .wpd {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: clamp(13px, 1.4vw, 16px);
+      color: var(--ink-s);
+      line-height: 1.72;
+      max-width: 440px;
+    }
+
+    .wpd em {
+      background: var(--ink-g);
+      color: transparent;
+      border-radius: 2px;
+      padding: 0 3px;
+      font-style: normal;
+      cursor: none;
+      transition: all .4s;
+    }
+
+    .wp.mylo:hover .wpd em {
+      filter: blur(2px)
+    }
+
+    .wpt {
+      display: inline-block;
+      margin-top: 18px;
+      font-family: 'Martian Mono', monospace;
+      font-size: 8.5px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--ink-d);
+      border-bottom: 1px solid var(--ink-g);
+      padding-bottom: 3px;
+    }
+
+    .wk-dots {
+      position: absolute;
+      bottom: 44px;
+      right: 52px;
+      display: flex;
+      gap: 7px;
+      align-items: center
+    }
+
+    .dd {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--ink-g);
+      transition: background .4s, transform .4s
+    }
+
+    .dd.on {
+      background: var(--ink-m);
+      transform: scale(1.5)
+    }
+
+    /* Right: large number / visual */
+    .wk-r {
+      border-left: 1px solid var(--ink-g);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--c2);
+    }
+
+    .wk-v {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity .6s var(--e);
+    }
+
+    .wk-v.h {
+      opacity: 0;
+      pointer-events: none
+    }
+
+    .wv-num {
+      font-family: 'Cormorant', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(160px, 25vw, 340px);
+      line-height: 1;
+      color: rgba(20, 18, 16, 0.07);
+      letter-spacing: -.06em;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .wv-my {
+      font-family: 'Cormorant', serif;
+      font-style: italic;
+      font-weight: 300;
+      text-align: center;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .wv-my .vb {
+      display: block;
+      font-size: clamp(110px, 18vw, 240px);
+      letter-spacing: -.06em;
+      line-height: .82;
+      color: rgba(20, 18, 16, 0.05)
+    }
+
+    .wv-my .vs {
+      display: block;
+      font-size: 10px;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--ink-g);
+      margin-top: 20px
+    }
+
+    /* ══════════════════════════════════════════
+   TWO THINGS — STICKY, GAP GROWS
+   
+   Two sentences arrive complete.
+   Space between them expands as you scroll.
+   You sit with each one alone.
+══════════════════════════════════════════ */
+    .s-tw-o {
+      height: 300vh;
+      position: relative
+    }
+
+    .s-tw {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      padding: 0 52px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+      border-top: 1px solid var(--ink-g);
+    }
+
+    .tw-ch {
+      font-family: 'Martian Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      color: var(--ink-d);
+      margin-bottom: 52px;
+      transition: opacity .5s;
+    }
+
+    .tw-r {
+      overflow: hidden
+    }
+
+    .tw {
+      font-family: 'Cormorant', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(40px, 7vw, 96px);
+      letter-spacing: -.025em;
+      line-height: 1;
+      color: var(--ink);
+      display: block;
+      transform: translateY(112%);
+      transition: transform 1.2s var(--e);
+    }
+
+    .tw.up {
+      transform: translateY(0)
+    }
+
+    .tw.dim {
+      color: var(--ink-m)
+    }
+
+    #tw-g {
+      height: 0;
+      transition: height .05s linear;
+      will-change: height
+    }
+
+    .tw-n {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(13px, 1.3vw, 15px);
+      color: var(--ink-d);
+      margin-top: 36px;
+      max-width: 320px;
+      line-height: 1.85;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .8s var(--e), transform .8s var(--e);
+    }
+
+    .tw-n.in {
+      opacity: 1;
+      transform: translateY(0)
+    }
+
+    /* ══════════════════════════════════════════
+   SMALL THINGS — Joy without saying joy
+   Non-grid. Items at different indentations.
+══════════════════════════════════════════ */
+    .s-sm {
+      padding: 130px 52px;
+      border-top: 1px solid var(--ink-g);
+      background: var(--c2)
+    }
+
+    .sm-h {
+      font-family: 'Martian Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      color: var(--ink-d);
+      margin-bottom: 56px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .8s var(--e), transform .8s var(--e);
+    }
+
+    .sm-h.in {
+      opacity: 1;
+      transform: translateY(0)
+    }
+
+    .si {
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+      padding: 17px 0;
+      border-bottom: 1px solid var(--ink-g);
+      opacity: 0;
+      transition: opacity .9s var(--e), transform .9s var(--e), color .3s;
+    }
+
+    .si.fl {
+      transform: translateX(-26px)
+    }
+
+    .si.fr {
+      transform: translateX(26px)
+    }
+
+    .si.in {
+      opacity: 1;
+      transform: translateX(0)
+    }
+
+    .si:hover {
+      padding-left: 16px;
+      border-left: 2px solid var(--gold);
+    }
+
+    .si:hover .si-t {
+      color: var(--ink)
+    }
+
+    .si-n {
+      font-family: 'Martian Mono', monospace;
+      font-size: 8.5px;
+      color: var(--ink-g);
+      min-width: 26px;
+      letter-spacing: .08em
+    }
+
+    .si-t {
+      font-family: 'Cormorant', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(18px, 2.8vw, 40px);
+      letter-spacing: -.01em;
+      line-height: 1.15;
+      color: var(--ink-s);
+      transition: color .3s;
+    }
+
+    /* indent pattern — breaks the grid feel */
+    .si:nth-child(3) {
+      padding-left: 5vw
+    }
+
+    .si:nth-child(5) {
+      padding-left: 2.5vw
+    }
+
+    .si:nth-child(7) {
+      padding-left: 8vw
+    }
+
+    .si:nth-child(2) {
+      transition-delay: .07s
+    }
+
+    .si:nth-child(3) {
+      transition-delay: .13s
+    }
+
+    .si:nth-child(4) {
+      transition-delay: .19s
+    }
+
+    .si:nth-child(5) {
+      transition-delay: .25s
+    }
+
+    .si:nth-child(6) {
+      transition-delay: .31s
+    }
+
+    .si:nth-child(7) {
+      transition-delay: .37s
+    }
+
+    /* ══════════════════════════════════════════
+   KERALA — horizontal sentence
+   
+   A single thought printed at 25vw text size.
+   As you scroll DOWN through the section,
+   it slides LEFT. You have to scroll to finish.
+   The place resists being skimmed.
+══════════════════════════════════════════ */
+    .s-kr-o {
+      height: 180vh;
+      position: relative
+    }
+
+    .s-kr {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      overflow: hidden;
+      border-top: 1px solid var(--ink-g);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .kr-lbl {
+      position: absolute;
+      top: 48px;
+      left: 52px;
+      font-family: 'Martian Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      color: rgba(150, 122, 62, .55);
+      opacity: 0;
+      transition: opacity 1s var(--e);
+    }
+
+    .kr-lbl.in {
+      opacity: 1
+    }
+
+    .kr-trk {
+      will-change: transform;
+      white-space: nowrap;
+      padding: 0 52px;
+      transition: opacity 1s var(--e);
+      display: flex;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 1s var(--e);
+    }
+
+    .kr-trk.in {
+      opacity: 1
+    }
+
+    .kr-s {
+      font-family: 'Cormorant', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(36px, 6vw, 82px);
+      letter-spacing: -.025em;
+      line-height: 1.2;
+      color: var(--ink);
+      padding-right: 100px;
+      display: inline;
+    }
+
+    .kr-foot {
+      position: absolute;
+      bottom: 52px;
+      left: 52px;
+      right: 52px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .kr-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 14px;
+      color: var(--ink-s);
+      line-height: 1.8;
+      max-width: 400px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 1s var(--e) .7s, transform 1s var(--e) .7s;
+    }
+
+    .kr-sub.in {
+      opacity: 1;
+      transform: translateY(0)
+    }
+
+    .kr-yr {
+      font-family: 'Cormorant', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(64px, 10vw, 130px);
+      color: rgba(20, 18, 16, .035);
+      line-height: 1;
+      letter-spacing: -.04em;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* ══════════════════════════════════════════
+   MYLO — PAGE GOES DARK
+   
+   The section itself triggers a body class.
+   Cream → near-black. One breath of dark.
+   The only darkness on the entire page.
+   MYLO lives in the dark.
+══════════════════════════════════════════ */
+    /* Dark section — all driven by JS-lerped CSS variables, zero abrupt switches */
+
+    .s-my {
+      padding: 160px 52px;
+      position: relative;
+      transition: background .001s;
+      /* JS handles dark toggle */
+    }
+
+    .my-l {
+      font-family: 'Martian Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      color: var(--ink-d);
+      margin-bottom: 64px;
+      opacity: 0;
+      transition: opacity .8s;
+    }
+
+    .my-l.in {
+      opacity: 1
+    }
+
+    .my-s {
+      font-family: 'Cormorant', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(21px, 3.2vw, 44px);
+      line-height: 1.5;
+      max-width: 720px;
+      letter-spacing: -.01em;
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 1.2s var(--e), transform 1.2s var(--e);
+      /* color inherited from body — JS lerps it */
+    }
+
+    .my-s.in {
+      opacity: 1;
+      transform: translateY(0)
+    }
+
+    .my-h {
+      color: var(--ink-d);
+      transition: color .4s
+    }
+
+    .my-s:hover .my-h {
+      filter: blur(.8px)
+    }
+
+    .my-a {
+      margin-top: 44px;
+      font-family: 'Martian Mono', monospace;
+      font-size: 9.5px;
+      letter-spacing: .15em;
+      color: var(--ink-d);
+      border-left: 1px solid var(--ink-g);
+      padding-left: 16px;
+      max-width: 340px;
+      line-height: 2;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .8s var(--e) .5s, transform .8s var(--e) .5s;
+    }
+
+    .my-a.in {
+      opacity: 1;
+      transform: translateY(0)
+    }
+
+    /* ══════════════════════════════════════════
+   CONNECT
+══════════════════════════════════════════ */
+    .s-co {
+      padding: 160px 52px 120px;
+      border-top: 1px solid var(--ink-g);
+      scroll-margin-top: 80px;
+    }
+
+    .co-inv {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(13px, 1.3vw, 15px);
+      color: var(--ink-d);
+      margin-bottom: 48px;
+      max-width: 440px;
+      line-height: 1.85;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .8s var(--e) .3s, transform .8s var(--e) .3s;
+    }
+
+    .co-inv.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .co-l {
+      font-family: 'Martian Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .4em;
+      text-transform: uppercase;
+      color: var(--ink-d);
+      margin-bottom: 64px;
+      opacity: 0;
+      transition: opacity .8s;
+    }
+
+    .co-l.in {
+      opacity: 1
+    }
+
+    .co-hw {
+      overflow: hidden;
+      margin-bottom: 80px
+    }
+
+    .co-h {
+      font-family: 'Cormorant', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(44px, 7.5vw, 104px);
+      letter-spacing: -.03em;
+      line-height: .9;
+      color: var(--ink);
+      display: block;
+      transform: translateY(112%);
+      transition: transform 1.4s var(--e);
+    }
+
+    .co-h.up {
+      transform: translateY(0)
+    }
+
+    .co-h.b {
+      transition-delay: .12s
+    }
+
+    .co-ls {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity .9s var(--e) .2s, transform .9s var(--e) .2s
+    }
+
+    .co-ls.in {
+      opacity: 1;
+      transform: translateY(0)
+    }
+
+    .ca {
+      display: flex;
+      align-items: baseline;
+      gap: 36px;
+      padding: 21px 0;
+      border-bottom: 1px solid var(--ink-g);
+      text-decoration: none;
+      cursor: none;
+      max-width: 580px;
+      transition: padding-left .5s var(--e);
+    }
+
+    .ca:hover {
+      padding-left: 10px
+    }
+
+    .ca-p {
+      font-family: 'Martian Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--ink-d);
+      min-width: 86px
+    }
+
+    .ca-v {
+      font-family: 'Cormorant', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(15px, 1.8vw, 21px);
+      color: var(--ink-s);
+      transition: color .35s
+    }
+
+    .ca:hover .ca-v {
+      color: var(--ink)
+    }
+
+    .ca-a {
+      margin-left: auto;
+      font-size: 12px;
+      color: var(--ink-g);
+      transition: transform .5s var(--e), color .35s
+    }
+
+    .ca:hover .ca-a {
+      transform: translate(5px, -5px);
+      color: var(--ink-m)
+    }
+
+    footer {
+      padding: 26px 52px;
+      border-top: 1px solid var(--ink-g);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--c2);
+    }
+
+    .fl,
+    .fr,
+    .fc {
+      font-family: 'Martian Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--ink-d)
+    }
+
+    .fc {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .btt {
+      font-family: 'Martian Mono', monospace;
+      font-size: 8px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--ink-d);
+      text-decoration: none;
+      cursor: none;
+      transition: color .3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btt:hover {
+      color: var(--ink)
+    }
+
+    .btt-arrow {
+      display: inline-block;
+      transition: transform .4s var(--e);
+    }
+
+    .btt:hover .btt-arrow {
+      transform: translateY(-3px);
+    }
+
+    @media(max-width:900px) {
+
+      /* ── NAV: backdrop blur so it doesn't clash with content ── */
+      nav {
+        padding: 16px 20px;
+        background: rgba(241, 237, 229, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        mix-blend-mode: normal;
+      }
+
+      .n-l {
+        font-size: 8.5px;
+      }
+
+      .n-r {
+        gap: 18px;
+      }
+
+      .n-r a {
+        font-size: 8.5px;
+      }
+
+      /* ── HERO: full-bleed photo background (Option C) ── */
+      .s-hero {
+        height: 100svh;
+        padding: 0 24px 36px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        position: relative;
+        background: #0f0d0a;
+      }
+
+      .s-hero::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top,
+            rgba(15, 13, 10, 0.92) 0%,
+            rgba(15, 13, 10, 0.6) 35%,
+            rgba(15, 13, 10, 0.15) 65%,
+            transparent 100%);
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      .h-name {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        z-index: 3;
+        margin-bottom: 20px;
+      }
+
+      .h-nt {
+        font-size: clamp(44px, 12vw, 72px);
+        color: var(--cream);
+        transform: none;
+        animation: fadeIn 1s var(--e) 0.3s forwards;
+        opacity: 0;
+      }
+
+      .h-pw {
+        position: absolute;
+        inset: 0;
+        height: 100%;
+        width: 100%;
+        max-width: 100%;
+        right: auto;
+        bottom: auto;
+        opacity: 0;
+        animation: photoIn 1.2s var(--e) 0.4s forwards;
+        z-index: 1;
+      }
+
+      .h-photo {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        object-position: top center;
+      }
+
+      .h-info {
+        position: relative;
+        max-width: 320px;
+        z-index: 3;
+      }
+
+      .h-ey {
+        color: rgba(241, 237, 229, 0.7);
+      }
+
+      .h-hr {
+        background: rgba(241, 237, 229, 0.2);
+      }
+
+      .h-desc {
+        font-size: 13px;
+        line-height: 1.6;
+        color: rgba(241, 237, 229, 0.8);
+      }
+
+      .h-meta span {
+        color: rgba(241, 237, 229, 0.5);
+      }
+
+      .h-shadow {
+        display: none;
+      }
+
+      .h-sc {
+        z-index: 3;
+        color: rgba(241, 237, 229, 0.5);
+      }
+
+      /* ── MARQUEE ── */
+      .s-mq {
+        height: 48px;
+      }
+
+      .mw {
+        font-size: 16px;
+        padding: 0 14px;
+      }
+
+      /* ── WORK SECTION: single column, right panel as bg ── */
+      .s-wk {
+        grid-template-columns: 1fr;
+      }
+
+      .wk-r {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        opacity: .25;
+        border-left: none;
+      }
+
+      .wk-l {
+        position: relative;
+        z-index: 1;
+        padding: 0 20px;
+      }
+
+      .wpn {
+        font-size: clamp(42px, 11vw, 72px);
+      }
+
+      .wpd {
+        font-size: 13px;
+        line-height: 1.7;
+        max-width: 100%;
+      }
+
+      .wk-dots {
+        right: 20px;
+        bottom: 32px;
+      }
+
+      .wk-ch {
+        margin-bottom: 32px;
+      }
+
+      .wk-stage {
+        min-height: 200px;
+      }
+
+      /* ── TWO THINGS ── */
+      .s-tw {
+        padding: 0 20px;
+      }
+
+      .tw {
+        font-size: clamp(32px, 8vw, 60px);
+      }
+
+      .tw-ch {
+        margin-bottom: 36px;
+      }
+
+      .tw-n {
+        font-size: 13px;
+        max-width: 280px;
+      }
+
+      /* ── SMALL THINGS ── */
+      .s-sm {
+        padding: 80px 20px;
+      }
+
+      .si-t {
+        font-size: clamp(16px, 4.5vw, 28px);
+      }
+
+      .si:nth-child(3),
+      .si:nth-child(5),
+      .si:nth-child(7) {
+        padding-left: 0;
+      }
+
+      /* ── KERALA ── */
+      .s-kr-o {
+        height: 120vh;
+      }
+
+      .s-kr {
+        padding: 0;
+      }
+
+      .kr-trk {
+        padding: 0 20px;
+        white-space: normal;
+        overflow: hidden;
+      }
+
+      .kr-s {
+        padding-right: 0;
+      }
+
+      .kr-s {
+        font-size: clamp(28px, 5.5vw, 50px);
+      }
+
+      .kr-sub {
+        font-size: 12px;
+        max-width: 260px;
+      }
+
+      .kr-foot {
+        left: 20px;
+        right: 20px;
+        bottom: 36px;
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+      }
+
+      .kr-yr {
+        font-size: clamp(48px, 12vw, 80px);
+        align-self: flex-end;
+      }
+
+      .kr-lbl {
+        top: 36px;
+        left: 20px;
+      }
+
+      /* ── MYLO ── */
+      .s-my {
+        padding: 100px 20px;
+      }
+
+      .my-s {
+        font-size: clamp(18px, 4.5vw, 30px);
+        max-width: 100%;
+      }
+
+      .my-l {
+        margin-bottom: 40px;
+      }
+
+      .my-a {
+        font-size: 8.5px;
+        max-width: 100%;
+      }
+
+      /* ── CONNECT ── */
+      .s-co {
+        padding: 100px 20px 80px;
+      }
+
+      .co-h {
+        font-size: clamp(36px, 9vw, 64px);
+      }
+
+      .co-hw {
+        margin-bottom: 48px;
+      }
+
+      .co-inv {
+        font-size: 13px;
+        margin-bottom: 32px;
+      }
+
+      .ca {
+        gap: 20px;
+        padding: 16px 0;
+        max-width: 100%;
+      }
+
+      .ca-p {
+        font-size: 8px;
+        min-width: 64px;
+      }
+
+      .ca-v {
+        font-size: clamp(14px, 3.5vw, 18px);
+      }
+
+      .co-l {
+        margin-bottom: 40px;
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        padding: 20px;
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+      }
+
+      .fc {
+        order: -1;
+      }
+    }
+
+    /* ═══════════════════════════════════════
+       PHONE-SPECIFIC (≤480px)
+    ═══════════════════════════════════════ */
+    @media(max-width:480px) {
+      nav {
+        padding: 14px 16px;
+      }
+
+      .n-l {
+        font-size: 7.5px;
+        letter-spacing: .18em;
+      }
+
+      .n-r {
+        gap: 12px;
+      }
+
+      .n-r a {
+        font-size: 7.5px;
+        letter-spacing: .12em;
+      }
+
+      .s-hero {
+        padding: 0 16px 28px;
+      }
+
+      .h-nt {
+        font-size: clamp(36px, 11vw, 56px);
+      }
+
+      .h-info {
+        max-width: 280px;
+      }
+
+      .h-ey {
+        font-size: 8px;
+      }
+
+      .h-desc {
+        font-size: 12px;
+        line-height: 1.55;
+      }
+
+      .h-meta span {
+        font-size: 7.5px;
+      }
+
+      .s-mq {
+        height: 40px;
+      }
+
+      .mw {
+        font-size: 13px;
+        padding: 0 10px;
+      }
+
+      .ms {
+        font-size: 6px;
+      }
+
+      .wk-l {
+        padding: 0 16px;
+      }
+
+      .wpn {
+        font-size: clamp(36px, 10vw, 56px);
+        margin-bottom: 14px;
+      }
+
+      .wpd {
+        font-size: 12px;
+      }
+
+      .wpt {
+        font-size: 7.5px;
+      }
+
+      .wk-ch {
+        font-size: 8px;
+        margin-bottom: 24px;
+      }
+
+      .s-tw {
+        padding: 0 16px;
+      }
+
+      .tw {
+        font-size: clamp(28px, 7.5vw, 48px);
+      }
+
+      .tw-ch {
+        font-size: 8px;
+        margin-bottom: 28px;
+      }
+
+      .tw-n {
+        font-size: 12px;
+        margin-top: 24px;
+        max-width: 260px;
+      }
+
+      .s-sm {
+        padding: 64px 16px;
+      }
+
+      .sm-h {
+        font-size: 8px;
+        margin-bottom: 36px;
+      }
+
+      .si {
+        gap: 12px;
+        padding: 14px 0;
+      }
+
+      .si-n {
+        font-size: 7.5px;
+        min-width: 22px;
+      }
+
+      .si-t {
+        font-size: clamp(14px, 4vw, 22px);
+      }
+
+      .kr-trk {
+        padding: 0 16px;
+        white-space: normal;
+      }
+
+      .kr-s {
+        font-size: clamp(22px, 5vw, 36px);
+        padding-right: 40px;
+      }
+
+      .kr-foot {
+        left: 16px;
+        right: 16px;
+        bottom: 24px;
+      }
+
+      .kr-sub {
+        font-size: 11px;
+        max-width: 220px;
+      }
+
+      .kr-yr {
+        font-size: clamp(36px, 10vw, 64px);
+      }
+
+      .kr-lbl {
+        top: 28px;
+        left: 16px;
+      }
+
+      .s-my {
+        padding: 80px 16px;
+      }
+
+      .my-s {
+        font-size: clamp(16px, 4.2vw, 26px);
+        line-height: 1.6;
+      }
+
+      .my-l {
+        margin-bottom: 32px;
+        font-size: 8px;
+      }
+
+      .my-a {
+        font-size: 8px;
+        margin-top: 32px;
+        line-height: 2.2;
+      }
+
+      .s-co {
+        padding: 80px 16px 64px;
+      }
+
+      .co-h {
+        font-size: clamp(30px, 8vw, 50px);
+      }
+
+      .co-l {
+        font-size: 8px;
+        margin-bottom: 32px;
+      }
+
+      .co-inv {
+        font-size: 12px;
+        margin-bottom: 24px;
+      }
+
+      .ca {
+        gap: 14px;
+        padding: 14px 0;
+      }
+
+      .ca-p {
+        font-size: 7.5px;
+        min-width: 56px;
+      }
+
+      .ca-v {
+        font-size: clamp(13px, 3.2vw, 16px);
+      }
+
+      footer {
+        padding: 16px;
+      }
+
+      .fl,
+      .fr,
+      .fc {
+        font-size: 7.5px;
+      }
+
+      .btt {
+        font-size: 7px;
+      }
+    }
+
+    /* ═══════════════════════════════════════
+       MICRO SCREENS (≤320px)
+    ═══════════════════════════════════════ */
+    @media(max-width:320px) {
+      .h-nt {
+        font-size: 36px;
+      }
+
+      .h-pw {
+        display: none;
+      }
+
+      .co-h {
+        font-size: 26px;
+      }
+
+      .tw {
+        font-size: 24px;
+      }
+    }
+
+    /* ═══════════════════════════════════════
+       TOUCH DEVICES: hide custom cursor
+    ═══════════════════════════════════════ */
+    @media(hover: none) and (pointer: coarse) {
+      body {
+        cursor: auto;
+      }
+
+      #c-blob {
+        display: none;
+      }
+
+      .ca,
+      .n-r a,
+      .btt {
+        cursor: pointer;
+      }
+    }
+
+    /* ── AMBIENT PARTICLES CANVAS ── */
+    #mylo-particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .s-my {
+      position: relative;
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body>
+
+  <svg id="c-blob" viewBox="0 0 40 40">
+    <defs>
+      <radialGradient id="blob-grad" cx="50%" cy="50%" r="150%" fx="20%" fy="20%" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#7B2FF7" />
+        <stop offset="15%" stop-color="#9B59E8" />
+        <stop offset="30%" stop-color="#D946A8" />
+        <stop offset="45%" stop-color="#FF6B9D" />
+        <stop offset="60%" stop-color="#F77737" />
+        <stop offset="75%" stop-color="#FCAF45" />
+        <stop offset="90%" stop-color="#C4A0FF" />
+        <stop offset="100%" stop-color="#7B2FF7" />
+        <animateTransform attributeName="gradientTransform" type="rotate" from="0 20 20" to="360 20 20" dur="18s"
+          repeatCount="indefinite" />
+      </radialGradient>
+    </defs>
+    <path id="blob-path" fill="url(#blob-grad)"
+      d="M20,2 C28,2 38,10 38,20 C38,30 28,38 20,38 C12,38 2,30 2,20 C2,10 12,2 20,2 Z" />
+  </svg>
+  <div id="pg"></div>
+  <div id="ld">
+    <div class="ld-n">Mohammed Sami</div>
+    <div class="ld-b"></div>
+  </div>
+
+  <nav>
+    <div class="n-l">thetechceo</div>
+    <div class="n-r">
+      <a href="#work" data-section="work">Work<span class="n-dot"></span></a>
+      <a href="#connect" data-section="connect">Talk<span class="n-dot"></span></a>
+      <a href="https://offware.in" target="_blank">OffWare ↗</a>
+    </div>
+  </nav>
+
+  <!-- ════════════════════════
+  HERO — PERSON IN THE ROOM
+
+  transparent PNG, bottom-aligned, right side.
+  Feet on the floor. Just there.
+
+  TO USE YOUR PHOTO:
+  1. Export a PNG with transparent background
+  2. Replace <div class="h-ph-placeholder"> with:
+     <img class="h-photo" src="your-photo.png" alt="Mohammed Sami">
+════════════════════════ -->
+  <section class="s-hero" id="heroS">
+
+    <!-- Name clips upward from below -->
+    <div class="h-name">
+      <div class="h-nl"><span class="h-nt">Mohammed</span></div>
+      <div class="h-nl"><span class="h-nt d2">Sami.</span></div>
+    </div>
+
+    <!-- Photo: transparent PNG, bottom-right, feet on the floor -->
+    <div class="h-pw" id="hPI">
+      <!-- ↓ Replace this with <img class="h-photo" src="photo.png" alt=""> -->
+      <img class="h-photo" src="thetechceo.png" alt="Mohammed Sami — founder of OffWare Research Lab" decoding="async"
+        fetchpriority="high">
+    </div>
+
+    <!-- Ground shadow -->
+    <div class="h-shadow"></div>
+
+    <!-- Info: bottom-left -->
+    <div class="h-info">
+      <div class="h-ey">Kerala, India · 19</div>
+      <div class="h-hr"></div>
+      <p class="h-desc">
+        I'm building general intelligence<br>
+        from scratch — no lab, no VC, just<br>
+        a team working from Kerala.<br>
+        The first product is DesignOS.
+      </p>
+      <div class="h-meta">
+        <span>Founder — OffWare Research Lab</span>
+        <span>MYLO + DesignOS · No institutional backing</span>
+      </div>
+    </div>
+
+    <div class="h-sc">
+      <div class="h-scl"></div><span>scroll</span>
+    </div>
+  </section>
+
+  <!-- MARQUEE — counter direction -->
+  <div class="s-mq">
+    <div class="mq-t" id="mq">
+      <span class="mw on">OffWare</span><span class="ms">·</span>
+      <span class="mw">MYLO</span><span class="ms">·</span>
+      <span class="mw on">DesignOS</span><span class="ms">·</span>
+      <span class="mw">Kerala</span><span class="ms">·</span>
+      <span class="mw on">19</span><span class="ms">·</span>
+      <span class="mw">thetechceo</span><span class="ms">·</span>
+      <span class="mw on">OffWare</span><span class="ms">·</span>
+      <span class="mw">MYLO</span><span class="ms">·</span>
+      <span class="mw on">DesignOS</span><span class="ms">·</span>
+      <span class="mw">Kerala</span><span class="ms">·</span>
+      <span class="mw on">19</span><span class="ms">·</span>
+      <span class="mw">thetechceo</span><span class="ms">·</span>
+      <span class="mw on">OffWare</span><span class="ms">·</span>
+      <span class="mw">MYLO</span><span class="ms">·</span>
+    </div>
+  </div>
+
+  <!-- ════════════════════════
+  WORK — FULL STICKY SLIDES
+════════════════════════ -->
+  <div class="s-wk-o" id="work">
+    <div class="s-wk" id="wk">
+      <div class="wk-l">
+        <div class="wk-ch" id="wkCh">What I'm building</div>
+        <div class="wk-stage">
+          <!-- OffWare: enters from left -->
+          <div class="wp xl" id="pOW">
+            <div class="wpn">OffWare.</div>
+            <div class="wpd">My research lab. Started as a studio — the studio funds the lab, the lab builds the
+              intelligence. Small team. Never in the same room. Running from wherever we are. This is what I actually
+              am.</div>
+            <span class="wpt">Research Lab · Kerala · The mothership</span>
+          </div>
+          <!-- MYLO: enters from below, stays blurred -->
+          <div class="wp yb mylo" id="pMY">
+            <div class="wpn">MYLO.</div>
+            <div class="wpd">General intelligence, built from scratch at OffWare. I won't share the full architecture —
+              <em>not here, not anywhere yet</em>. What I can say: DesignOS runs on it. And if it lands the way I think,
+              <em>it's what I'll be known for</em>.
+            </div>
+            <span class="wpt">In development · The life's work · Architecture private</span>
+          </div>
+          <!-- DesignOS: enters from right -->
+          <div class="wp xr" id="pDOS">
+            <div class="wpn">DesignOS.</div>
+            <div class="wpd">The first product MYLO makes possible. Autonomous creative intelligence — any input, full
+              brand and marketing loop. Every medium. Brand-aware. Trend-aware. It works at 3am. It doesn't have bad
+              weeks.</div>
+            <span class="wpt">Creative Intelligence · Pre-Launch · Flagship</span>
+          </div>
+        </div>
+        <div class="wk-dots">
+          <div class="dd" id="d0"></div>
+          <div class="dd" id="d1"></div>
+          <div class="dd" id="d2"></div>
+        </div>
+      </div>
+      <div class="wk-r">
+        <div class="wk-v" id="v0">
+          <div class="wv-num">01</div>
+        </div>
+        <div class="wk-v h" id="v1">
+          <div class="wv-my">
+            <span class="vb">MY</span><span class="vb" style="margin-left:.1em">LO.</span>
+            <span class="vs">Architecture not public</span>
+          </div>
+        </div>
+        <div class="wk-v h" id="v2">
+          <div class="wv-num">03</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════
+  TWO THINGS
+════════════════════════ -->
+  <div class="s-tw-o" id="twO">
+    <div class="s-tw" id="twS">
+      <div class="tw-ch" id="twC">How I work</div>
+      <div class="tw-r"><span class="tw" id="tw0">I don't stop.</span></div>
+      <div id="tw-g"></div>
+      <div class="tw-r"><span class="tw dim" id="tw1">I see what isn't there yet.</span></div>
+      <p class="tw-n" id="twN">Not two separate things. The same instinct, working at two depths.<br><br>That's the
+        loop: build → break → build again. OffWare runs on it.</p>
+    </div>
+  </div>
+
+  <!-- ════════════════════════
+  SMALL THINGS
+════════════════════════ -->
+  <section class="s-sm">
+    <div class="sm-h" id="smH">Things that are actually good</div>
+    <div class="si fl" id="si0"><span class="si-n">01</span><span class="si-t">The gym at 6am, when it's still
+        quiet.</span></div>
+    <div class="si fr" id="si1"><span class="si-n">02</span><span class="si-t">When the team figures something out
+        before I ask.</span></div>
+    <div class="si fl" id="si2"><span class="si-n">03</span><span class="si-t">Mum's cooking. Full stop.</span></div>
+    <div class="si fr" id="si3"><span class="si-n">04</span><span class="si-t">A problem that breaks open at 3 in the
+        afternoon.</span></div>
+    <div class="si fl" id="si4"><span class="si-n">05</span><span class="si-t">Kerala before the heat comes in.</span>
+    </div>
+    <div class="si fr" id="si5"><span class="si-n">06</span><span class="si-t">An architecture idea arriving mid-set at
+        the gym.</span></div>
+    <div class="si fl" id="si6"><span class="si-n">07</span><span class="si-t">The team. Always the team.</span></div>
+  </section>
+
+  <!-- ════════════════════════
+  KERALA — horizontal scroll
+════════════════════════ -->
+  <div class="s-kr-o" id="krO">
+    <div class="s-kr" id="krS">
+      <div class="kr-lbl" id="krL">Home</div>
+      <div class="kr-trk" id="krT">
+        <span class="kr-s">I built all of this from here — no lab, no institution, no city where this work is supposed
+          to come from — and the constraint became the design principle.</span>
+      </div>
+      <div class="kr-foot">
+        <p class="kr-sub" id="krSub">Something about being home makes the large ideas feel possible differently. Not
+          smaller. Not bigger. Just more real. Like they have somewhere to stand.</p>
+        <div class="kr-yr">Kerala</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════
+  MYLO — page goes dark
+════════════════════════ -->
+  <section class="s-my" id="myS">
+    <canvas id="mylo-particles"></canvas>
+    <div class="my-l" id="myL">The work I don't fully talk about</div>
+    <div class="my-s" id="myStmt">
+      I'm building something called MYLO at OffWare — general intelligence, from scratch.
+      <span class="my-h">The full architecture isn't public and won't be for a while.</span>
+      What I can say: DesignOS is the first product it makes possible.
+      If it lands the way I think — it's the closest thing to AGI being built outside the frontier labs.
+      I'll let the work say the rest.
+    </div>
+    <div class="my-a" id="myA">Said once. Then back to building.</div>
+  </section>
+
+  <!-- ════════════════════════
+  CONNECT
+════════════════════════ -->
+  <section class="s-co" id="connect">
+    <div class="co-l" id="coL">Get in touch</div>
+    <div class="co-hw">
+      <span class="co-h" id="ch0">If something here</span>
+      <span class="co-h b" id="ch1">felt worth a conversation.</span>
+    </div>
+    <p class="co-inv" id="coInv">Not looking for investors. Looking for builders, makers, and the unreasonably curious.
+    </p>
+    <div class="co-ls" id="coLs">
+      <a href="mailto:sami@offware.in" class="ca"><span class="ca-p">Email</span><span
+          class="ca-v">sami@offware.in</span><span class="ca-a">↗</span></a>
+      <a href="https://offware.in" class="ca" target="_blank"><span class="ca-p">OffWare</span><span
+          class="ca-v">offware.in</span><span class="ca-a">↗</span></a>
+      <a href="https://x.com/thetechceo" class="ca" target="_blank"><span class="ca-p">X</span><span
+          class="ca-v">@thetechceo</span><span class="ca-a">↗</span></a>
+      <a href="https://instagram.com/thetechceo" class="ca" target="_blank"><span class="ca-p">Instagram</span><span
+          class="ca-v">@thetechceo</span><span class="ca-a">↗</span></a>
+      <a href="https://linkedin.com/in/thetechceo" class="ca" target="_blank"><span class="ca-p">LinkedIn</span><span
+          class="ca-v">Mohammed Sami</span><span class="ca-a">↗</span></a>
+    </div>
+  </section>
+
+  <footer id="footer">
+    <div class="fl">© 2026 Mohammed Sami — thetechceo</div>
+    <div class="fc">
+      <a href="#heroS" class="btt"><span class="btt-arrow">↑</span> Back to top</a>
+    </div>
+    <div class="fr">OffWare Research Lab · Kerala</div>
+  </footer>
+
+  <script>
+    /* ── CURSOR: morphing blob ── */
+    const cBlob = document.getElementById('c-blob')
+    const blobPath = document.getElementById('blob-path')
+    let mx = 0, my = 0, bx = 0, by = 0
+    let vx = 0, vy = 0, prevMx = 0, prevMy = 0
+    let magTarget = null, isMag = false
+    let blobW = 40, blobH = 40 // current rendered size
+    let targetW = 40, targetH = 40 // target size
+
+    // Organic blob base shape (rest state)
+    const BLOB_REST = 'M20,2 C28,2 38,10 38,20 C38,30 28,38 20,38 C12,38 2,30 2,20 C2,10 12,2 20,2 Z'
+
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY })
+
+    document.querySelectorAll('a,button,.si,.ca').forEach(el => {
+      el.addEventListener('mouseenter', () => { isMag = true; magTarget = el })
+      el.addEventListener('mouseleave', () => { isMag = false; magTarget = null })
+    })
+
+    /* ── SCROLL-AWARE blob state ── */
+    let scrollSpeed = 0, prevScrollY = 0
+    window.addEventListener('scroll', () => {
+      scrollSpeed = Math.abs(scrollY - prevScrollY)
+      prevScrollY = scrollY
+    }, { passive: true })
+
+    /* ── TEXT MAGNETIC REPEL: nearby elements shift away from cursor ── */
+    const repelTargets = document.querySelectorAll('.si-t, .co-h, .h-nt, .tw')
+    function updateRepel() {
+      repelTargets.forEach(el => {
+        const rect = el.getBoundingClientRect()
+        const cx = rect.left + rect.width / 2
+        const cy = rect.top + rect.height / 2
+        const dx = bx - cx, dy = by - cy
+        const dist = Math.sqrt(dx * dx + dy * dy)
+        const threshold = 120
+        if (dist < threshold && dist > 0) {
+          const force = (1 - dist / threshold) * 4
+          const pushX = -(dx / dist) * force
+          const pushY = -(dy / dist) * force
+          el.style.transform = `translate(${pushX}px, ${pushY}px)`
+          el.style.transition = 'transform 0.1s ease-out'
+        } else {
+          el.style.transform = ''
+          el.style.transition = 'transform 0.4s ease-out'
+        }
+      })
+    }
+
+    /* ── LOADER ── */
+    function dismissLoader() {
+      setTimeout(() => document.getElementById('ld').classList.add('out'), 1800)
+    }
+    if (document.readyState === 'complete') dismissLoader()
+    else window.addEventListener('load', dismissLoader)
+    setTimeout(() => document.getElementById('ld').classList.add('out'), 4000)
+
+    /* ── PROGRESS ── */
+    window.addEventListener('scroll', () => {
+      document.getElementById('pg').style.width =
+        (scrollY / (document.body.scrollHeight - innerHeight) * 100) + '%'
+    }, { passive: true })
+
+    /* ── HERO PHOTO: parallax targets ── */
+    const hPI = document.getElementById('hPI')
+    let ppx = 0, ppy = 0, cpx = 0, cpy = 0
+    document.addEventListener('mousemove', e => {
+      ppx = (e.clientX / innerWidth - 0.5) * -10
+      ppy = (e.clientY / innerHeight - 0.5) * -6
+    })
+
+    /* ── MARQUEE: direction-aware scroll ── */
+    const mqEl = document.getElementById('mq')
+    let mqW = 0; mqEl.querySelectorAll('span').forEach(s => mqW += s.offsetWidth)
+    let mqPos = 0, lastScrollY = 0
+    window.addEventListener('scroll', () => {
+      const delta = scrollY - lastScrollY
+      mqPos += delta * 0.12
+      if (mqW > 0) mqPos = mqPos % (mqW / 2)
+      mqEl.style.transform = `translateX(${mqPos}px)`
+      lastScrollY = scrollY
+    }, { passive: true })
+
+    /* ── HELPERS ── */
+    const cl = (v, a, b) => Math.max(a, Math.min(b, v))
+    const pr = (p, a, b) => cl((p - a) / (b - a), 0, 1)
+    const lp = (a, b, t) => a + (b - a) * t
+
+    /* ── WORK: directional sticky slides ── */
+    const wkO = document.getElementById('work')
+    const wkCh = document.getElementById('wkCh')
+    const pOW = document.getElementById('pOW'), pMY = document.getElementById('pMY'), pDOS = document.getElementById('pDOS')
+    const vis = [document.getElementById('v0'), document.getElementById('v1'), document.getElementById('v2')]
+    const dots = [document.getElementById('d0'), document.getElementById('d1'), document.getElementById('d2')]
+    let aD = -1
+
+    function updWk() {
+      const r = wkO.getBoundingClientRect()
+      const tot = wkO.offsetHeight - innerHeight
+      const p = cl(-r.top / tot, 0, 1)
+      wkCh.style.opacity = p < .93 ? 1 : cl(1 - (p - .93) * 20, 0, 1)
+
+      const oI = pr(p, .02, .26), oO = pr(p, .30, .42)
+      pOW.style.opacity = lp(0, lp(1, 0, oO), oI)
+      pOW.style.transform = `translateX(${lp(-44, lp(0, -22, oO), oI)}px)`
+      pOW.style.filter = oO > 0 ? `blur(${oO * 3}px)` : 'none'
+
+      const mI = pr(p, .37, .61), mO = pr(p, .63, .74)
+      pMY.style.opacity = lp(0, lp(1, 0, mO), mI)
+      pMY.style.transform = `translateY(${lp(36, lp(0, 6, mO), mI)}px)`
+      pMY.style.filter = `blur(${lp(5, 1.5, mI)}px)`
+
+      const dI = pr(p, .74, .97)
+      pDOS.style.opacity = lp(0, 1, dI)
+      pDOS.style.transform = `translateX(${lp(44, 0, dI)}px)`
+
+      const n = p < .33 ? 0 : p < .67 ? 1 : 2
+      if (n !== aD) {
+        aD = n
+        dots.forEach((d, i) => d.classList.toggle('on', i === n))
+        vis.forEach((v, i) => v.classList.toggle('h', i !== n))
+      }
+    }
+    window.addEventListener('scroll', updWk, { passive: true }); updWk()
+
+    /* ── TWO THINGS ── */
+    const twO = document.getElementById('twO')
+    const twC = document.getElementById('twC'), twG = document.getElementById('tw-g')
+    const tw0 = document.getElementById('tw0'), tw1 = document.getElementById('tw1')
+    const twN = document.getElementById('twN')
+
+    function updTwo() {
+      const r = twO.getBoundingClientRect()
+      const tot = twO.offsetHeight - innerHeight
+      const p = cl(-r.top / tot, 0, 1)
+      twC.style.opacity = cl(p * 10, 0, 1)
+      if (p > .1) tw0.classList.add('up'); else tw0.classList.remove('up')
+      if (p > .36) tw1.classList.add('up'); else tw1.classList.remove('up')
+      twG.style.height = lp(0, 88, pr(p, .38, .85)) + 'px'
+      if (p > .64) twN.classList.add('in'); else twN.classList.remove('in')
+    }
+    window.addEventListener('scroll', updTwo, { passive: true }); updTwo()
+
+    /* ── KERALA ── */
+    const krO = document.getElementById('krO'), krT = document.getElementById('krT')
+    const krL = document.getElementById('krL'), krSub = document.getElementById('krSub')
+    let krMax = 0
+    function calcKr() { krMax = Math.max(0, krT.scrollWidth - innerWidth + 52 + 60) }
+    calcKr(); window.addEventListener('resize', calcKr)
+
+    function updKr() {
+      const r = krO.getBoundingClientRect()
+      const tot = krO.offsetHeight - innerHeight
+      const p = cl(-r.top / tot, 0, 1)
+      if (p > .04) { krT.classList.add('in'); krL.classList.add('in') }
+      krT.style.transform = `translateX(${lp(0, -krMax, pr(p, .08, .92))}px)`
+      if (p > .85) krSub.classList.add('in'); else krSub.classList.remove('in')
+    }
+    window.addEventListener('scroll', updKr, { passive: true }); updKr()
+
+    /* ── MYLO: smooth dark lerp ── */
+    const myloSect = document.getElementById('myS')
+    const connectSect = document.getElementById('connect')
+    const BG_L = [241, 237, 229], BG_D = [15, 13, 10]
+    const TX_L = [20, 18, 16], TX_D = [204, 199, 188]
+    let darkT = 0
+
+    /* ── UNIFIED rAF LOOP: blob cursor + parallax + dark lerp ── */
+    function mainLoop() {
+      // Velocity
+      vx = mx - prevMx; vy = my - prevMy
+      prevMx = mx; prevMy = my
+      const speed = Math.sqrt(vx * vx + vy * vy)
+
+      // Smooth blob position
+      bx += (mx - bx) * 0.15; by += (my - by) * 0.15
+
+      // Stretching based on velocity
+      const stretch = cl(speed / 15, 0, 1)
+      const angle = Math.atan2(vy, vx)
+      const scaleX = 1 + stretch * 0.5
+      const scaleY = 1 - stretch * 0.2
+
+      if (isMag && magTarget) {
+        // Morph to wrap hovered element
+        const rect = magTarget.getBoundingClientRect()
+        const pad = 12
+        targetW = rect.width + pad * 2
+        targetH = rect.height + pad * 2
+
+        // Lerp blob toward element center
+        const elCx = rect.left + rect.width / 2
+        const elCy = rect.top + rect.height / 2
+        bx += (elCx - bx) * 0.18
+        by += (elCy - by) * 0.18
+
+        // Lerp size
+        blobW += (targetW - blobW) * 0.1
+        blobH += (targetH - blobH) * 0.1
+
+        // Generate rounded rect path inside the viewBox
+        const w = blobW, h = blobH
+        const r = Math.min(h / 2, 14)
+        const vbW = w, vbH = h
+        cBlob.setAttribute('viewBox', `0 0 ${vbW} ${vbH}`)
+        cBlob.style.width = w + 'px'
+        cBlob.style.height = h + 'px'
+        const rr = `M${r},0 L${vbW - r},0 Q${vbW},0 ${vbW},${r} L${vbW},${vbH - r} Q${vbW},${vbH} ${vbW - r},${vbH} L${r},${vbH} Q0,${vbH} 0,${vbH - r} L0,${r} Q0,0 ${r},0 Z`
+        blobPath.setAttribute('d', rr)
+
+        // Lower opacity on hover wrap for subtlety
+        cBlob.style.opacity = '0.6'
+        cBlob.style.transform = `translate(${bx - w / 2}px, ${by - h / 2}px)`
+      } else {
+        // Return to rest blob
+        blobW += (40 - blobW) * 0.12
+        blobH += (40 - blobH) * 0.12
+        cBlob.style.width = '40px'
+        cBlob.style.height = '40px'
+        cBlob.setAttribute('viewBox', '0 0 40 40')
+
+        // Scroll-aware: squish blob during fast scroll
+        const scrollSquish = cl(scrollSpeed / 30, 0, 0.3)
+        const finalScaleY = scaleY * (1 - scrollSquish)
+        const scrollFade = cl(1 - scrollSpeed / 60, 0.4, 1)
+
+        // Subtly deform the blob based on velocity direction
+        if (speed > 1.5) {
+          const dx = vx / speed, dy = vy / speed
+          const s = stretch * 6
+          const p = `M${20 + dx * s},${2 - dy * s * 0.3} C${28 + dx * s},2 ${38},${10 - dy * s * 0.2} ${38 + dx * s * 0.4},${20} C38,${30 + dy * s * 0.2} ${28 - dx * s * 0.4},38 ${20 - dx * s * 0.3},${38 + dy * s * 0.3} C${12 - dx * s * 0.3},38 2,${30 + dy * s * 0.2} ${2 - dx * s * 0.4},${20} C2,${10 - dy * s * 0.2} ${12 + dx * s * 0.3},2 ${20 + dx * s},${2 - dy * s * 0.3} Z`
+          blobPath.setAttribute('d', p)
+        } else {
+          blobPath.setAttribute('d', BLOB_REST)
+        }
+
+        cBlob.style.opacity = String(scrollFade)
+        cBlob.style.transform = `translate(${bx - 20}px, ${by - 20}px) rotate(${angle}rad) scaleX(${scaleX}) scaleY(${finalScaleY})`
+      }
+
+      // Text magnetic repulsion
+      updateRepel()
+
+      // Hero parallax
+      cpx += (ppx - cpx) * .035; cpy += (ppy - cpy) * .035
+      if (hPI) hPI.style.transform = `translateY(${cpy}px) translateX(${cpx}px)`
+
+      // MYLO dark fade
+      const mr = myloSect.getBoundingClientRect()
+      const cr = connectSect.getBoundingClientRect()
+      let t = 0
+      if (mr.top < innerHeight * 1.0 && cr.top > 0) {
+        t = cl((innerHeight - mr.top) / (innerHeight * 0.8), 0, 1)
+      }
+      if (cr.top < innerHeight * 0.9) {
+        t = cl(cr.top / (innerHeight * 0.6), 0, 1)
+      }
+      darkT += (t - darkT) * 0.06
+      const bg = BG_L.map((v, i) => Math.round(lp(v, BG_D[i], darkT)))
+      const tx = TX_L.map((v, i) => Math.round(lp(v, TX_D[i], darkT)))
+      document.body.style.background = `rgb(${bg})`
+      document.body.style.color = `rgb(${tx})`
+
+      requestAnimationFrame(mainLoop)
+    }
+    mainLoop()
+
+      /* ── MYLO AMBIENT PARTICLES ── */
+      ; (function initParticles() {
+        const canvas = document.getElementById('mylo-particles')
+        if (!canvas) return
+        const ctx = canvas.getContext('2d')
+        const particles = []
+        const COUNT = 12
+
+        function resize() {
+          const rect = canvas.parentElement.getBoundingClientRect()
+          canvas.width = rect.width
+          canvas.height = rect.height
+        }
+        resize()
+        window.addEventListener('resize', resize)
+
+        for (let i = 0; i < COUNT; i++) {
+          particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 0.3,
+            vy: (Math.random() - 0.5) * 0.2,
+            r: Math.random() * 2 + 1,
+            a: Math.random() * 0.03 + 0.015
+          })
+        }
+
+        function drawParticles() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height)
+          particles.forEach(p => {
+            p.x += p.vx; p.y += p.vy
+            if (p.x < 0) p.x = canvas.width
+            if (p.x > canvas.width) p.x = 0
+            if (p.y < 0) p.y = canvas.height
+            if (p.y > canvas.height) p.y = 0
+
+            // Adapt color to dark mode
+            const alpha = p.a * (1 + darkT * 3)
+            const c = darkT > 0.5 ? 200 : 20
+            ctx.beginPath()
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+            ctx.fillStyle = `rgba(${c},${c},${c},${alpha})`
+            ctx.fill()
+          })
+          requestAnimationFrame(drawParticles)
+        }
+        drawParticles()
+      })()
+
+    /* ── NAV: active section indicator ── */
+    const navLinks = document.querySelectorAll('.n-r a[data-section]')
+    const sectionMap = {}
+    navLinks.forEach(link => {
+      const id = link.getAttribute('data-section')
+      const section = document.getElementById(id)
+      if (section) sectionMap[id] = { link, section }
+    })
+
+    const navObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        const id = e.target.id
+        if (sectionMap[id]) {
+          sectionMap[id].link.classList.toggle('active', e.isIntersecting)
+        }
+      })
+    }, { threshold: 0.1, rootMargin: '-80px 0px -40% 0px' })
+
+    Object.values(sectionMap).forEach(({ section }) => navObserver.observe(section))
+
+    /* ── IO: standard scroll reveals ── */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target) } })
+    }, { threshold: .08, rootMargin: '0px 0px -36px 0px' })
+      ;['smH', 'si0', 'si1', 'si2', 'si3', 'si4', 'si5', 'si6', 'myL', 'myStmt', 'myA', 'coL', 'coLs', 'coInv']
+        .forEach(id => { const el = document.getElementById(id); if (el) io.observe(el) })
+
+    new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          document.getElementById('ch0').classList.add('up')
+          setTimeout(() => document.getElementById('ch1').classList.add('up'), 130)
+        }
+      })
+    }, { threshold: .2 }).observe(document.getElementById('ch0'))
+
+    /* ── SMOOTH SCROLL ── */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault()
+        const t = document.querySelector(a.getAttribute('href'))
+        if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      })
+    })
+  </script>
+</body>
+
+</html>
